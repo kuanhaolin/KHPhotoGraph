@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KH PhotoGraph</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url("./img/2.jpg") no-repeat center center/cover;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+      z-index: 2;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90%;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-text p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      color: white;
+      text-decoration: none;
+      text-transform: none;
+      letter-spacing: 2px;
+      font-weight: 500;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Desktop Navigation Bar */
+    .navigation {
+      background: transparent;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 0;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .navigation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .navigation:hover::before {
+      left: 100%;
+    }
+
+    .nav-item {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.2);
+    }
+
+    .nav-separator {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+      font-size: 1.2rem;
+      margin: 0 0.2rem;
+    }
+
+    .brand-suffix {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .brand-suffix:hover {
+      transform: scale(1.15);
+      background: rgba(255, 255, 255, 0.25);
+    }
+    
+    .mobile-navigation {
+      display: none;
+    }
+    
+    .menu-button {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    
+    /* --- Mobile Menu --- */
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .mobile-menu-content {
+      padding: 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .mobile-menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 300;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      width: 100%;
+      cursor: pointer;
+    }
+    
+    .mobile-menu-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .mobile-menu-item:hover {
+      color: #ff6b35;
+      transform: translateX(10px);
+    }
+
+    .mobile-menu-footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }         
+        
+    .close-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .submenu {
+      display: none;
+      flex-direction: column;
+      padding-left: 1.5rem;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-sub-item {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.8rem;
+      font-weight: 300;
+      padding: 0.5rem 0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-sub-item:hover {
+      color: #ff6b35;
+      transform: translateX(10px);
+    }
+
+    .arrow {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .desktop-menu-overlay {
+      visibility: hidden;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .desktop-menu-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .desktop-menu-content {
+      background: transparent;
+      height: 100%;
+      width: 100%;
+      max-width: 500px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .desktop-menu-item {
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 300;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .desktop-menu-item:last-child {
+        border-bottom: none;
+    }
+
+    .desktop-menu-item:hover {
+      color: #ff6b35;
+      transform: translateX(10px);
+    }
+
+    .desktop-menu-footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+    }         
+
+    .close-desktop-menu-button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-desktop-menu-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+    
+    /* Tablet */
+    @media (max-width: 768px) {
+      .navigation {
+        display: none;
+      }
+      .desktop-i-menu-overlay { /* 在平板和手機上隱藏桌面版菜單 */
+        display: none !important; 
+      }
+            
+      .mobile-navigation {
+        display: flex;
+      }
+
+      .hero-text {
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        text-align: left;
+        align-items: flex-start;
+        max-width: 80%;
+      }
+
+      .hero-text h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+      }
+
+      .hero-text p {
+        font-size: 1.1rem;
+        line-height: 1.4;
+      }
+
+      .btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      /* .navigation is already hidden by the 768px query */
+      /* .mobile-navigation is already flex by the 768px query */
+      
+      .hero-text h1 {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+      }
+
+      .hero-text p {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .btn {
+        padding: 10px 25px;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    /* 320px */
+    @media (max-width: 320px) {
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero-text p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero-banner">
+    <div class="hero-text">
+      <h1>KH PhotoGraph</h1>
+      <p>World peace and Being yourself.</p>
+
+      <nav class="navigation">
+        <a class="nav-item" id="desktop-nav-i">I</a>
+        <span class="nav-separator">/</span>
+        <a href="#" class="nav-item">Can</a>
+        <span class="nav-separator">/</span>
+        <a class="nav-item" id="desktop-nav-do">Do</a>      
+        <span class="nav-separator">/</span>
+        <a href="#" class="nav-item">Something</a>  
+        <span class="nav-separator" style="margin: 0 1rem; font-size: 1.5rem;">|</span>
+        <div class="brand-suffix">More+</div>
+      </nav>
+
+      <nav class="mobile-navigation">
+        <button class="menu-button" onclick="openMobileMenu()">Read More →</button>
+      </nav>   
+    </div>
+  </div>
+
+  <div class="desktop-menu-overlay" id="desktopIMenuOverlay">
+    <div class="desktop-menu-content">
+        <a class="desktop-menu-item" onclick="handleDesktopINavClick('Story')">Story</a>
+        <a class="desktop-menu-item" onclick="handleDesktopINavClick('About')">About</a>
+        <a class="desktop-menu-item" onclick="handleDesktopINavClick('Contact')">Contact</a>
+        <div class="desktop-menu-footer">
+            <button class="close-desktop-menu-button" onclick="closeDesktopIMenu()">✕</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="desktop-menu-overlay" id="desktopDoMenuOverlay">
+    <div class="desktop-menu-content">
+      <a href="vienna.html" class="desktop-menu-item"('Vienna')">Vienna</a>
+      <a class="desktop-menu-item" onclick="handleDesktopDoNavClick('Roma')">Roma</a>
+      <a class="desktop-menu-item" onclick="handleDesktopDoNavClick('Paris')">Paris</a>
+      <div class="desktop-menu-footer">
+          <button class="close-desktop-menu-button" onclick="closeDesktopDoMenu()">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-content">
+        <div class="mobile-menu-item" onclick="toggleSubMenu('i-submenu', 'arrow-i', event)">I<span id="arrow-i" class="arrow">📷</span></div>
+          <div id="i-submenu" class="submenu">
+            <a href="#" class="mobile-sub-item">Story</a>
+            <a href="#" class="mobile-sub-item">About</a>
+            <a href="#" class="mobile-sub-item">Contact</a>
+          </div>
+        <a class="mobile-menu-item" onclick="handleMobileNavClick('Can')">Can</a>
+        <div class="mobile-menu-item" onclick="toggleSubMenu('do-submenu', 'arrow-do', event)">Do<span id="arrow-do" class="arrow">📷</span></div>
+          <div id="do-submenu" class="submenu">
+            <a href="vienna.html" class="mobile-sub-item">Vienna</a>
+            <a href="#" class="mobile-sub-item">Roma</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+          </div>
+        <a class="mobile-menu-item" onclick="handleMobileNavClick('Something')">Something</a>
+        <div class="mobile-menu-footer">
+            <button class="close-button" onclick="closeMobileMenu()">✕</button>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 變數宣告 ---
+    const desktopIMenu = document.getElementById('desktopIMenuOverlay');
+    const desktopDoMenu = document.getElementById('desktopDoMenuOverlay');
+    const mobileMenu = document.getElementById('mobileMenuOverlay');
+    const desktopNavITrigger = document.getElementById('desktop-nav-i');
+    const desktopNavDoTrigger = document.getElementById('desktop-nav-do');
+
+    // --- 桌面版 "I" 選單功能 ---
+    if (desktopNavITrigger) { 
+        desktopNavITrigger.onclick = function(event) {
+            event.preventDefault(); // 防止連結跳轉
+            openDesktopIMenu();
+        };
+    }
+
+    function openDesktopIMenu() {
+        if (desktopIMenu) desktopIMenu.classList.add('show');
+    }
+
+    function closeDesktopIMenu() {
+        if (desktopIMenu) desktopIMenu.classList.remove('show');
+    }
+
+    function handleDesktopINavClick(item) {
+      alert('You clicked on desktop menu: ' + item);
+      closeDesktopIMenu(); // 點擊後關閉選單
+    }
+
+    // --- (新增) 桌面版 "Do" 選單功能 ---
+    if (desktopNavDoTrigger) { 
+        desktopNavDoTrigger.onclick = function(event) {
+            event.preventDefault();
+            openDesktopDoMenu();
+        };
+    }
+
+    function openDesktopDoMenu() {
+        if (desktopDoMenu) desktopDoMenu.classList.add('show');
+    }
+
+    function closeDesktopDoMenu() {
+        if (desktopDoMenu) desktopDoMenu.classList.remove('show');
+    }
+
+    function handleDesktopDoNavClick(item) {
+      alert('You clicked on "Do" menu: ' + item);
+      closeDesktopDoMenu();
+    }
+
+    // --- 手機版選單功能 ---
+    function openMobileMenu() {
+      if (mobileMenu) mobileMenu.classList.add('show');
+    }
+  
+    function closeMobileMenu() {
+      if (mobileMenu) mobileMenu.classList.remove('show');
+    }
+  
+    function handleMobileNavClick(item) {
+      alert('You clicked: ' + item);
+      closeMobileMenu();
+    }
+
+    function toggleSubMenu(submenuId, arrowId, event) {
+      event.stopPropagation(); // 防止事件冒泡到父元素，觸發關閉選單
+      const submenu = document.getElementById(submenuId);
+      const arrow = document.getElementById(arrowId);
+
+      if (submenu && arrow) {
+        const isOpen = submenu.style.display === 'flex';
+        submenu.style.display = isOpen ? 'none' : 'flex';
+        arrow.textContent = isOpen ? '📷' : '📸';
+      }
+    }
+  </script>
+
+</body>
+</html>

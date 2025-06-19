@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vienna Highlights</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Navigation */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 15px 0;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #2c3e50;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #3498db;
+    }
+
+    .resize-icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .resize-icon:hover {
+      opacity: 1;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 80px;
+      padding: 50px 0;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #3498db, #2ecc71);
+    }
+
+    /* Feature Card */
+    .feature-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 40px;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-image {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .feature-card:hover .feature-image {
+      transform: scale(1.05);
+    }
+
+    .feature-content {
+      padding: 40px;
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .feature-description {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      gap: 8px;
+    }
+
+    .read-more:hover {
+      color: #2980b9;
+      transform: translateX(5px);
+    }
+
+    .read-more::after {
+      content: '→';
+      transition: transform 0.3s ease;
+    }
+
+    .read-more:hover::after {
+      transform: translateX(3px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 0 0 15px 15px;
+    }
+
+    .mobile-menu.active {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 20px 0;
+    }
+
+    .mobile-menu li {
+      padding: 0 20px;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 15px 0;
+      color: #666;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      color: #3498db;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 10px;
+        /* padding: 50px 0; */
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .header {
+        position: relative;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+      }
+
+      .feature-image {
+        height: 300px;
+      }
+
+      .feature-content {
+        padding: 30px 20px;
+      }
+
+      .feature-title {
+        font-size: 1.8rem;
+      }
+
+      .feature-description {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        margin-top: 10px;
+        /* padding: 50px 0; */
+      }
+
+      .container {
+        padding: 0 15px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .feature-image {
+        height: 250px;
+      }
+
+      .feature-content {
+        padding: 25px 15px;
+      }
+
+      .feature-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Additional Cards */
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .template-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .template-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .template-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .template-content {
+      padding: 25px;
+    }
+
+    .template-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .template-text {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li><a href="./vienna.html">Vienna</a></li>
+        <li><a href="./index.html">Roma</a></li>
+        <li><a href="./paris.html">Paris</a></li>
+        <!-- <li><a href="./Vienna.html">Vienna</a></li> -->
+      </ul>
+      
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        ☰
+      </button>
+    </nav>
+    
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="./vienna.html">Vienna</a></li>
+        <li><a href="./roma.html" class="active">Roma</a></li>
+        <li><a href="./paris.html" class="active">Paris</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+    <h1 class="page-title">Travel<br>Highlights</h1>
+    
+    <div class="feature-card">
+      <img src="./img/1.jpg" alt="Vienna Concert Hall" class="feature-image">
+      <div class="feature-content">
+        <h2 class="feature-title">Title</h2>
+        <p class="feature-description">
+          content content content content content
+        </p>
+        <a href="#" class="read-more">Read More</a>
+      </div>
+    </div>
+
+    <div class="template-grid">
+      <div class="template-card">
+        <img src="./img/1.jpg" alt="Mountain Adventure" class="template-image">
+        <div class="template-content">
+          <h3 class="template-title">Title</h3>
+          <p class="template-text">
+            content content content content content
+          </p>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <img src="./img/1.jpg" alt="Mountain Adventure" class="template-image">
+        <div class="template-content">
+          <h3 class="template-title">Title</h3>
+          <p class="template-text">
+            content content content content content
+          </p>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <img src="./img/1.jpg" alt="Mountain Adventure" class="template-image">
+        <div class="template-content">
+          <h3 class="template-title">Title</h3>
+          <p class="template-text">
+            content content content content content
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+      
+
+<script>
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenu.classList.toggle('active');
+}
+
+// 點擊外部關閉選單
+document.addEventListener('click', function(event) {
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  
+  if (!event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-btn')) {
+    mobileMenu.classList.remove('active');
+  }
+});
+</script>
+
+</body>
+</html>

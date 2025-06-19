@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vienna</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.7);
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+      z-index: 2;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 90%;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-text p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 500;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    /* Header Navigation */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 15px 0;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #2c3e50;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #3498db;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-menu.active {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 10px 0;
+    }
+
+    .mobile-menu li {
+      padding: 0 20px;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 15px 0;
+      color: #666;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.3s ease;
+    }
+    
+    .mobile-menu li:last-child a {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      color: #3498db;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .header {
+        position: fixed; /* or relative, depending on desired behavior */
+      }
+      
+      .hero-text {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        text-align: left;
+        align-items: flex-start;
+        max-width: 80%;
+      }
+
+      .hero-text h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+      }
+
+      .hero-text p {
+        font-size: 1.1rem;
+        line-height: 1.4;
+      }
+
+      .btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .hero-text {
+        left: 5%;
+        max-width: 90%;
+        gap: 1rem;
+      }
+
+      .hero-text h1 {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+      }
+
+      .hero-text p {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .btn {
+        padding: 10px 25px;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    /* 320px */
+    @media (max-width: 320px) {
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero-text p {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* 添加一些裝飾元素 */
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li><a href="./vienna.html">Vienna</a></li>
+        <li><a href="./index.html">Roma</a></li>
+        <li><a href="./paris.html">Paris</a></li>
+      </ul>
+      
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        ☰
+      </button>
+    </nav>
+    
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="./vienna.html">Vienna</a></li>
+        <li><a href="./index.html">Roma</a></li>
+        <li><a href="./paris.html">Paris</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="hero-banner">
+  <img src="./img/1.jpg" alt="Vienna" class="hero-img">
+  <div class="hero-text">
+    <h1>Vienna</h1>
+    <p>City of music.</p>
+    <a href="./vienna_highlights.html" class="btn">READ MORE</a>
+  </div>
+</div>
+
+<script>
+  function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('active');
+  }
+
+  // 點擊外部關閉選單
+  document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const header = document.querySelector('.header');
+    
+    // Check if the click is outside the header area
+    if (!header.contains(event.target)) {
+      mobileMenu.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>

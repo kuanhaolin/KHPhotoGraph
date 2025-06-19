@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KH PhotoGraph</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url("./img/2.jpg") no-repeat center center/cover;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      font-family: 'Noto Sans TC', 'Roboto', sans-serif;
+      z-index: 2;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90%;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-text p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      color: white;
+      text-decoration: none;
+      text-transform: none;
+      letter-spacing: 2px;
+      font-weight: 500;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .navigation {
+      background: transparent;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 0;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .navigation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .navigation:hover::before {
+      left: 100%;
+    }
+
+    .nav-item {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.2);
+    }
+
+    .nav-separator {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+      font-size: 1.2rem;
+      margin: 0 0.2rem;
+    }
+
+    .brand-suffix {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .brand-suffix:hover {
+      transform: scale(1.15);
+      background: rgba(255, 255, 255, 0.25);
+    }
+    
+    .mobile-navigation {
+      display: none;
+    }
+    
+    .menu-button {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    /* --- Mobile Menu --- */
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .mobile-menu-content {
+      padding: 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .mobile-menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 300;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .mobile-menu-item:hover {
+      color: #ff6b35;
+      transform: translateX(10px);
+    }
+
+    .mobile-menu-footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }         
+        
+    .close-button {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .close-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .submenu {
+      display: none;
+      flex-direction: column;
+      padding-left: 1.5rem;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-sub-item {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.8rem;
+      font-weight: 300;
+      padding: 0.5rem 0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-sub-item:hover {
+      color: #ff6b35;
+      transform: translateX(10px);
+    }
+
+    .arrow {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    /* --- Desktop "I" Menu (Modified to match mobile style) --- */
+    /* --- 請用這整段新的 CSS 取代舊的 --- */
+
+/* Desktop "I" Menu (新的全螢幕風格) */
+.desktop-i-menu-overlay {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9); /* 這是半透明的黑色背景 */
+  z-index: 999;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.desktop-i-menu-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.desktop-i-menu-content {
+  background: transparent; /* 內容區塊本身是透明的 */
+  height: 100%;
+  width: 100%;
+  max-width: 500px; /* 限制文字內容的最大寬度，避免在寬螢幕上太開 */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 讓所有項目垂直居中 */
+}
+
+.desktop-i-menu-item {
+  color: white;
+  font-size: 2.2rem; /* 大字體 */
+  font-weight: 300;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 項目之間的分隔線 */
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.desktop-i-menu-item:last-child {
+    border-bottom: none; /* 移除最後一項的底線 */
+}
+
+.desktop-i-menu-item:hover {
+  color: #ff6b35;
+  transform: translateX(10px); /* 滑鼠懸停時的互動效果 */
+}
+
+.desktop-i-menu-footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+}         
+
+.close-desktop-i-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.close-desktop-i-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* --- 替換區塊結束 --- */
+    
+    /* --- Media Queries --- */
+    /* Tablet */
+    @media (max-width: 768px) {
+      .navigation {
+        display: none;
+      }
+      .desktop-i-menu-overlay { /* 在平板和手機上隱藏桌面版菜單 */
+        display: none; 
+      }
+            
+      .mobile-navigation {
+        display: flex;
+      }
+
+      .hero-text {
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        text-align: left;
+        align-items: flex-start;
+        max-width: 80%;
+      }
+
+      .hero-text h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+      }
+
+      .hero-text p {
+        font-size: 1.1rem;
+        line-height: 1.4;
+      }
+
+      .btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .navigation {
+        display: none;
+      }
+
+      .mobile-navigation {
+        display: flex;
+      }
+      
+      .hero-text {
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        text-align: left;
+        align-items: flex-start;
+        max-width: 80%;
+      }
+
+      .hero-text h1 {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+      }
+
+      .hero-text p {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .btn {
+        padding: 10px 25px;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    /* 320px */
+    @media (max-width: 320px) {
+      /* .navigation is already hidden */
+      /* .mobile-navigation is already flex */
+      
+      .hero-text {
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        text-align: left;
+        align-items: flex-start;
+        max-width: 80%;
+      }
+
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero-text p {
+        font-size: 0.9rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="hero-banner">
+    <div class="hero-text">
+      <h1>KH PhotoGraph</h1>
+      <p>World peace and Being yourself.</p>
+      <nav class="navigation">
+        <!-- <a href="#" class="nav-item" onclick="handleNavClick('I')">I</a> -->
+        <!-- <a href="#" class="nav-item" onclick="toggleMobileMenu()">I</a> -->
+        <a href="#" class="nav-item" id="desktop-nav-i">I</a>
+        <span class="nav-separator">/</span>
+        <a href="#" class="nav-item" onclick="handleNavClick('Can')">Can</a>
+        <span class="nav-separator">/</span>
+        <a href="#" class="nav-item" onclick="handleNavClick('Do')">Do</a>
+          <!-- <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu-content">
+                <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Vienna')">Vienna</a>
+                <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Roma')">Roma</a>
+                <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Paris')">Pairs</a>
+                <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Something')">Something</a>
+                <div class="mobile-menu-footer">
+                    <button class="close-button" onclick="closeMobileMenu()">✕</button>
+                </div>
+            </div> -->
+          <!-- </div> -->
+        <span class="nav-separator">/</span>
+        <a href="#" class="nav-item" onclick="handleNavClick('Something')">Something</a>  
+        <span class="nav-separator" style="margin: 0 1rem; font-size: 1.5rem;">|</span>
+        <div class="brand-suffix">More+</div>
+      </nav>
+
+      <div class="desktop-i-menu-overlay" id="desktopIMenuOverlay">
+        <div class="desktop-i-menu-content">
+            <a href="#" class="desktop-i-menu-item" onclick="handleDesktopINavClick('Story'); closeDesktopIMenu()">Story</a>
+            <a href="#" class="desktop-i-menu-item" onclick="handleDesktopINavClick('About'); closeDesktopIMenu()">About</a>
+            <a href="#" class="desktop-i-menu-item" onclick="handleDesktopINavClick('Contact'); closeDesktopIMenu()">Contact</a>
+            <div class="desktop-i-menu-footer">
+                <button class="close-desktop-i-button" onclick="closeDesktopIMenu()">✕</button>
+            </div>
+        </div>
+      </div>
+
+      <!-- mobile -->
+      <nav class="mobile-navigation">
+        <button class="menu-button" onclick="toggleMobileMenu()">Read More →</button>
+        <!-- <div class="mobile-brand">Read More+</div> -->
+      </nav>   
+    </div>
+  </div>
+
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-content">
+        <!-- <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('I')">I</a> -->
+        <!-- <a href="#" class="mobile-menu-item" onclick="toggleSubMenu()">I</a> -->
+        <a href="#" class="mobile-menu-item" onclick="toggleSubMenu('i-submenu', 'arrow-i', event)">I<span id="arrow-i" class="arrow">📷</span></a>
+          <div id="i-submenu" class="submenu">
+            <a href="#" class="mobile-sub-item">Story</a>
+            <a href="#" class="mobile-sub-item">About</a>
+            <a href="#" class="mobile-sub-item">Contact</a>
+          </div>
+        <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Can')">Can</a>
+        <a href="#" class="mobile-menu-item" onclick="toggleSubMenu('do-submenu', 'arrow-do', event)">Do<span id="arrow-do" class="arrow">📷</span></a>
+          <div id="do-submenu" class="submenu">
+            <a href="vienna.html" class="mobile-sub-item">Vienna</a>
+            <a href="#" class="mobile-sub-item">Roma</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+            <!-- <a href="#" class="mobile-sub-item">Paris</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+            <a href="#" class="mobile-sub-item">Paris</a>
+            <a href="#" class="mobile-sub-item">Paris</a> -->
+          </div>
+        <a href="#" class="mobile-menu-item" onclick="handleMobileNavClick('Something')">Something</a>
+        <div class="mobile-menu-footer">
+            <button class="close-button" onclick="closeMobileMenu()">✕</button>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenuOverlay');
+      menu.classList.toggle('show');
+    }
+  
+    function closeMobileMenu() {
+      // document.getElementById('mobileMenuOverlay').style.display = 'none';
+      const menu = document.getElementById('mobileMenuOverlay');
+      menu.classList.remove('show');
+    }
+  
+    // 選單點選功能
+    function handleMobileNavClick(item) {
+      alert('You clicked: ' + item);
+      closeMobileMenu();
+    }
+
+    function toggleSubMenu() {
+      const submenu = document.getElementById('i-submenu');
+      submenu.style.display = submenu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleSubMenu(submenuId, arrowId, event) {
+      event.preventDefault(); // 防止連結跳轉
+      const submenu = document.getElementById(submenuId);
+      const arrow = document.getElementById(arrowId);
+
+      const isOpen = submenu.style.display === 'flex';
+      submenu.style.display = isOpen ? 'none' : 'flex';
+      arrow.textContent = isOpen ? '📷' : '📸';
+      // arrow.textContent = '👇'; // 關閉時
+      // } else {
+      //   submenu.style.display = 'flex';
+      //   arrow.textContent = '🖕'; // 展開時
+      // } 
+    }
+    const desktopIMenuOverlay = document.getElementById('desktopIMenuOverlay');
+    const desktopNavI = document.getElementById('desktop-nav-i');
+
+    // 找到這一段，確保它存在且沒有被註釋掉：
+    if (desktopNavI) { 
+        desktopNavI.onclick = function(event) {
+            event.preventDefault(); // 防止連結跳轉
+            openDesktopIMenu(); // 呼叫打開桌面菜單的函數
+        };
+    }
+    function openDesktopIMenu() {
+        // 這行是上次為了避免衝突加的，如果不需要自動關閉手機菜單，可以移除
+        // closeMobileMenu(); 
+        desktopIMenuOverlay.classList.add('show'); // 添加 show 類別來顯示桌面菜單
+    }
+
+    function closeDesktopIMenu() {
+        desktopIMenuOverlay.classList.remove('show'); // 移除 show 類別來隱藏桌面菜單
+    }
+
+
+
+  </script>
+
+</body>
+</html>

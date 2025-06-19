@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    overflow: hidden;
+}
+
+.hero-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: url("./img/2.jpg") no-repeat center center/cover;
+    /* filter: brightness(0.7); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* 半透明層 */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.hero-content {
+    position: absolute;
+    border: 2px solid #ff0000;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    z-index: 1;
+    /* padding: 10px; */
+    max-width: 90%;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    align-items: flex-start;
+    /* gap: 5em; */
+}
+
+.hero-content h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 4.5em;
+    letter-spacing: 0.05em;
+    width: 100%;
+    text-align: center;
+    /* margin-bottom: 0.5em; */
+    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.5em;
+    letter-spacing: 1px;
+    display: flex;
+    /* align-items: left; */
+    /* text-align: left;  */
+    /* opacity: 0.9; 不透明度 */
+    /* margin-bottom: 1rem; 段落下方間距 */
+    /* text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 文字陰影 */
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: ２em;
+    }
+
+    .hero-content p {
+        font-size: 1em;
+    }
+
+    .cta-container {
+        flex-direction: column; /* 在小螢幕下垂直堆疊連結組和 Read More */
+        gap: 15px;
+        margin-top: 10vh; /* 小螢幕下可以調整推下的距離 */
+    }
+}
